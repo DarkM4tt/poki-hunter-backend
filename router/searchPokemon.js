@@ -1,10 +1,11 @@
 const { default: axios } = require('axios');
 const express = require('express');
+const pokemonListCache = require('../middleware/pokemonListCache');
 const router = express.Router();
 
-router.get("/search-pokemon", async (req, res) => {
-    const res = await axios.get('https://pokeapi.co/api/v2/pokemon?limit=-1');
-    res.json(res.data);
+router.get("/search-pokemon", pokemonListCache, async (req, res) => {
+    const pokemonData = req.pokemonList;
+    res.json(pokemonData);
 });
 
 module.exports = router
