@@ -1,5 +1,5 @@
-const pokimon = require("./pokimon");
+const searchPokemon = require("./searchPokemon");
 
 module.exports = {
-    pokimon
+    searchPokemon
 };

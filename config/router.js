@@ -1,7 +1,7 @@
-const { pokimon } = require("../router");
+const { searchPokemon } = require("../router");
 
 const router = ({ app }) => {
-  app.use(pokimon);
+  app.use(searchPokemon);
 };
 
 module.exports = router;
