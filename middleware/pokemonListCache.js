@@ -14,7 +14,7 @@ const pokemonListCache = async (req, res, next) => {
         console.error('Error fetching Pokemon data:', error);
       }
     }
-    req.pokemonList = pokemonList;
+    req.pokemonList = pokemonList.map((pokemon)=>({name: pokemon.name}));
   }
   next();
 };
