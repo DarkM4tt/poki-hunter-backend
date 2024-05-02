@@ -21,7 +21,9 @@ function cleanupCache() {
 }
 
 router.get("/pokemon-details", async (req, res) => {
-    const { s = "" } = req.query;
+    let { s } = req.query;
+
+    s = typeof s === 'string' ? s : '';
 
     try {
         let pokemon;

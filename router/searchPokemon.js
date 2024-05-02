@@ -4,7 +4,10 @@ const pokemonListCache = require('../middleware/pokemonListCache');
 const router = express.Router();
 
 router.get("/search-pokemon", pokemonListCache, async (req, res) => {
-    const { s = "" } = req.query;
+    let { s } = req.query;
+
+    s = typeof s === 'string' ? s : '';
+
     const pokemonList = req.pokemonList;
 
     const filteredPokemon = pokemonList.filter(pokemon => {
