@@ -4,14 +4,20 @@ const router = express.Router();
 
 const cache = {};
 const cacheExpiry = 3600; 
+const maxCacheEntries = 100;
 
 function cleanupCache() {
     const now = Date.now();
-    for (const key in cache) {
+    const cacheKeys = Object.keys(cache);
+    if (cacheKeys.length > maxCacheEntries) {
+        const oldestKeys = cacheKeys.sort((a, b) => cache[a].timestamp - cache[b].timestamp).slice(0, cacheKeys.length - maxCacheEntries);
+        oldestKeys.forEach(key => delete cache[key]);
+    }
+    cacheKeys.forEach(key => {
         if (now - cache[key].timestamp > cacheExpiry * 1000) {
             delete cache[key];
         }
-    }
+    });
 }
 
 router.get("/pokemon-details", async (req, res) => {
