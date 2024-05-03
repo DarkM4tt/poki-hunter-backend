@@ -3,7 +3,7 @@ const axios = require('axios');
 const router = express.Router();
 
 const cache = {};
-const cacheExpiry = 3600; 
+const cacheExpiry = 3600;
 const maxCacheEntries = 100;
 
 function cleanupCache() {
@@ -34,7 +34,15 @@ router.get("/pokemon-details", async (req, res) => {
             pokemon = cache[s].data;
         } else {
             const response = await axios.get(`https://pokeapi.co/api/v2/pokemon/${s.toLocaleLowerCase()}/`);
-            pokemon = response.data;
+            const detail = response?.data;
+            pokemon = {
+                id: detail?.id,
+                name: detail?.name,
+                types: detail?.types,
+                abilities: detail?.abilities,
+                forms: detail?.forms,
+                moves: detail?.moves
+            };
 
             cache[s] = {
                 data: pokemon,
@@ -44,6 +52,7 @@ router.get("/pokemon-details", async (req, res) => {
 
         res.json(pokemon);
     } catch (error) {
+        console.log(error)
         res.status(500).json({ error: "Failed to fetch Pokemon details" });
     }
 });
